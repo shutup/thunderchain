@@ -1,6 +1,23 @@
 
 # Developer’s Guide to Xunlei Blockchain Applications Global Challenge
 
+- [Developer’s Guide to Xunlei Blockchain Applications Global Challenge](#developers-guide-to-xunlei-blockchain-applications-global-challenge)
+	- [Recommended Route for Contract Development Beginners](#recommended-route-for-contract-development-beginners)
+	- [Basic Concepts](#basic-concepts)
+		- [Blockchain](#blockchain)
+		- [Transaction](#transaction)
+		- [Account](#account)
+		- [Contract](#contract)
+		- [Gas](#gas)
+		- [Solidity](#solidity)
+		- [Notes](#notes)
+	- [Developing Contracts using truffle](#developing-contracts-using-truffle)
+		- [Installing truffle](#installing-truffle)
+		- [Getting Started](#getting-started)
+	- [Creating Interactive Contract Applications using truffle unbox](#creating-interactive-contract-applications-using-truffle-unbox)
+	- [Interacting with Blockchain using Browser Add-in metamask](#interacting-with-blockchain-using-browser-add-in-metamask)
+	- [Notes for Candidates to Submit Files](#notes-for-candidates-to-submit-files)
+
 ## Recommended Route for Contract Development Beginners
 1. Before you develop a smart contract, you should get some idea on the basics of blockchain (See: ethereum-overview).
 2. Learn the solidity language (solidity API).

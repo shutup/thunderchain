@@ -8,4 +8,4 @@
 
 - [迅雷链测试环境API](./test-api.md)
 - [迅雷链测试环境接入流程](./test-flow.md)
-- [迅雷全球区块链应用大赛开发指南](./thunderchain.md) 
+- [Developer’s Guide to Xunlei Blockchain Applications Global Challenge](./thunderchain-EN.md) 

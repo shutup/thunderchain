@@ -84,7 +84,7 @@ BODY: JSON
 |email|string|是|测试使用的email，主要用于接收测试消息|
 |bytecode|string|是|编译后的合约字节码，十六进制ABI格式|
 |params|string|是|构造函数初始化参数，十六进制ABI格式|
-|sign|string|是|签名md5(email=xxx&bytecode=xxx&secret=xxx), xxx填写请求的实际值|
+|sign|string|是|签名md5(email=xxx&bytecode=xxx&secret=xxx&params=xxx), xxx填写请求的实际值|
 
 **响应**
 
