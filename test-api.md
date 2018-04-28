@@ -98,7 +98,7 @@ BODY: JSON
 
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
-|id|int|是|合约部署产生的id,通过这个id可查询合约部署后的地址|
+|id|string|是|合约部署产生的id,通过这个id可查询合约部署后的地址|
 
 ## 4. 合约地址查询
 
@@ -117,7 +117,7 @@ BODY: JSON
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
 |email|string|是|测试使用的email，主要用于接收测试消息|
-|id|int|是|合约部署返回的id|
+|id|string|是|合约部署返回的id|
 |sign|string|是|签名md5(email=xxx&id=xxx&secret=xxx), xxx填写请求的实际值|
 
 **响应**
@@ -165,7 +165,7 @@ BODY: JSON
 
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
-|id|int|是|合约ID|
+|id|string|是|合约ID|
 |address|string|是|账户地址|
 
 ## 6. 唤起链克口袋协议
