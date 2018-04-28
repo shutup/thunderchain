@@ -26,7 +26,7 @@ BODY: JSON
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
 |email|string|是|测试使用的email，主要用于接收测试消息|
-|callback|string|否|测试合约或者链克兑换的回调URL地址|
+|callback|string|否|扩展字段|
 
 **响应**
 
