@@ -2,23 +2,23 @@
 # 迅雷全球区块链应用大赛开发指南
 
 - [迅雷全球区块链应用大赛开发指南](#)
-	- [合约开发入门线路推荐](#)
-	- [基本概念](#)
+	- [1. 合约开发入门线路推荐](#1)
+	- [2. 基本概念](#2)
 		- [区块链(Blockchain)](#blockchain)
-		- [交易(Transaction)](#transaction)
-		- [账户(Account)](#account)
-		- [合约(Contract)](#contract)
-		- [Gas](#gas)
-		- [Solidity](#solidity)
-		- [注意事项](#)
-	- [使用truffle 开发合约](#truffle)
-		- [安装truffle](#truffle)
-		- [开始](#)
-	- [使用truffle unbox创建可交互合约应用](#truffle-unbox)
-	- [使用浏览器插件 metamask 与区块链交互](#metamask)
-	- [参赛者提交文件说明](#)
+		- [2.1 交易(Transaction)](#21-transaction)
+		- [2.2 账户(Account)](#22-account)
+		- [2.3 合约(Contract)](#23-contract)
+		- [2.4 Gas](#24-gas)
+		- [2.5 Solidity](#25-solidity)
+		- [2.6 注意事项](#26)
+	- [3. 使用truffle 开发合约](#3-truffle)
+		- [3.1 安装truffle](#31-truffle)
+		- [3.2 开始](#32)
+	- [4. 使用truffle unbox创建可交互合约应用](#4-truffle-unbox)
+	- [5. 使用浏览器插件 metamask 与区块链交互](#5--metamask)
+	- [6. 参赛者提交文件说明](#6)
 
-## 合约开发入门线路推荐
+## 1. 合约开发入门线路推荐
 1. 在编写智能合约前，需要对[区块链基础](http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html#blockchain-basics)有一定的了解(附：[ethereum-overview](http://truffleframework.com/tutorials/ethereum-overview))。
 2. 学习solidity语言 ([solidity API](http://solidity.readthedocs.io/en/v0.4.21/index.html))。
 3. 结合solidity的学习，学习使用 [truffle 框架](http://truffleframework.com/docs) 。使用truffle develop在本地区块链环境下运行合约。
@@ -26,44 +26,44 @@
 5. 学习使用 [web3.js](http://web3js.readthedocs.io/en/1.0/index.html)与合约交互。使用Metamask插件和web服务与区块链交互。
 6. **论坛答疑：http://wanke.xunlei.com/forum.php?mod=forumdisplay&fid=53 （您碰到的任何问题，都可在此论坛反馈，我们将在3个工作日内给您回复）**
 
-## 基本概念
+## 2. 基本概念
 ### 区块链(Blockchain)
 区块链是一种去中心化的分布式计算系统，主要的特点是数据永久不可篡改性、不可伪造、公开透明信任度高。核心的技术包括拜占庭容错的共识算法(PBFT)、加密技术、P2P技术等。
 
-### 交易(Transaction)
+### 2.1 交易(Transaction)
 区块链可以理解为一个全局共享的交易数据库系统。任何有权限的软件都可以读取区块链网络中的数据。当需要改变区块网络中的数据时，就必须发起一个被所有区块节点接受的请求，这个请求在系统中统称为交易(Transaction)。   
 交易具有事务性，提交到区块链，要么全部不执行，要么全部执行。一个交易执行完成后永久保存到区块链，不能再做修改和再次执行。   
 交易由系统中的账户(Account)发起并且签名，通过加密技术，交易只能由私钥持有人发起，其他人不能修改和伪造。这样保证了交易的真实和安全。
 
-### 账户(Account)
+### 2.2 账户(Account)
 在区块链系统中有两类账户，一个是外部账户，一个是合约账户。外部账户拥有自己独有的公私密钥，账户由这个密钥对控制。合约账户有自己的代码，账户由自己的代码控制。   
 账户由一个地址标识，地址长度是一样的，两类账户无差别。外部账户的地址由其公钥产生，合约地址使用创建合约账户的地址以及创建合约账户的交易数(nonce)产生。合约由官方地址统一部署，普通账户不能直接发布合约。用户的合约必须经过官方评审，由迅雷统一发布。   
 在系统内部，对待这两类账户是无差别的。每个账户在系统内部有一个256bits到256bits的key-value存储结构，叫做storage。每个账户有个余额叫做balance，单位是wei，可以通过发送带数值的交易到账户进行修改。
 
-### 合约(Contract)
+### 2.3 合约(Contract)
 合约就是存储了代码的区块链账户，通过给这个账户发送交易实现合约调用。当前比较流行的合约编程语言是Solidity。当前大赛只支持Solidity语言提交合约。   
 合约内部分为两个部分，数据储存和函数，数据存储着合约的状态，函数是合约对外的接口，通过调用函数实现数据查询和状态修改。   
 通过编程语言书写合约，编译后得到EVM字节码。通过给合约账户发送交易，实现合约调用。
 
-### Gas
+### 2.4 Gas
 Gas是区块链的付费单位，一个交易创建的时候，会指定支付一定数量的Gas。主要是为了约束交易的运算量，以及为交易执行支付费用。交易执行过程中，Gas会以一个EVM设定的规则消耗。   
 Gas价格(Gas price)是由交易创建者指定的一个值，交易执行需要支付的费用数量为Gas_Price*Gas。交易结束如果Gas有剩余，剩余部分会返回给创建建议的用户。如果Gas不足，交易执行会失败，为了系统安全防止泛洪攻击，交易失败的手续费不返回。Gas价格的最小单位是wei，10^18 wei = 1 链克。
 
 
-### Solidity
+### 2.5 Solidity
 Solidity是针对智能合约设计的一门高级编程语言，运行环境是EVM(Ethereum Virtual Machine)。语言设计实现中受到了C++/Python/JavaScript的影响。Solidity是强类型语言，支持继承、多态、接口、抽象、库、自定义数据类型等特性。Solidity支持汇编指令编程，代码编译为字节码后运行在EVM上。Solidity是当下最流行的智能合约开发语言,也是迅雷合约平台推荐和支持的语言。
 
-### 注意事项
+### 2.6 注意事项
 1. Ethereum Virtual Machine 是在以太坊上为智能合约提供运行时环境的虚拟机。大赛平台兼容EVM，但需遵循官方平台的使用约束。
 1. 账户类型分为外部账户（普通的交易账户地址）和合约账户。创建合约就是向目标账户地址0发送交易的过程。
 1. **大赛指定使用truffle（truffle v4.1.5 solidity v0.4.21）开发智能合约，平台方会根据参赛者提交的文件源码校验bytecode。**，
 
-## 使用truffle 开发合约
+## 3. 使用truffle 开发合约
 > 智能合约solidity开发框架[truffle](http://truffleframework.com/docs/)。
 > 提供了一套完善的开发、调试、编译、部署、测试的本地环境。
 > 可以使用模板命令unbox根据一些模板快速生成对应的合约架构。
 
-### 安装truffle 
+### 3.1 安装truffle 
 
 	npm i -g truffle 
 
@@ -71,7 +71,7 @@ Solidity是针对智能合约设计的一门高级编程语言，运行环境是
 	Truffle v4.1.5 (core: 4.1.5)
 	Solidity v0.4.21 (solc-js)
 
-### 开始
+### 3.2 开始
 1. 使用truffle 初始化合约工程
 
 		mkdir simple-storage
@@ -198,7 +198,7 @@ remix提供了合约的编译运行环境，并可以在控制台看到合约每
 	2. 使用run来create 合约，控制台可查看创建合约的交易。
 	![图片.png](https://upload-images.jianshu.io/upload_images/8918886-c01f8b9021e6ce3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 使用truffle unbox创建可交互合约应用
+## 4. 使用truffle unbox创建可交互合约应用
 上面的步骤使用基本的truffle init创建了一个可编译部署调试的合约环境。
 下面使用truffle unbox创建一个新的工程，unbox为我们提供了truffle工程模板，内置了一些合约应用交互的环境依赖。
 可以在[truffle boxes](http://truffleframework.com/boxes/)里查看官方提供的各种模板boxes。
@@ -358,10 +358,10 @@ remix提供了合约的编译运行环境，并可以在控制台看到合约每
 		SimpleStorage.at('xxxx').then(res => {return res.get()})
 		// 得到BigNUmber类型的返回值，c数组里的值即为设置的storedData的值。
 
-## 使用浏览器插件 metamask 与区块链交互
+## 5. 使用浏览器插件 metamask 与区块链交互
 参考http://truffleframework.com/tutorials/pet-shop
 
-## 参赛者提交文件说明
+## 6. 参赛者提交文件说明
 大赛指定使用truffle 开发智能合约，truffle 版本为 v4.1.5，对应的solcjs版本为 v0.4.21。
 开发者需要提交truffle工程压缩包和相关项目介绍文档，至少包含以下内容：
 1. truffle 工程基本文件结构:
