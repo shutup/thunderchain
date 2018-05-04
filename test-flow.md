@@ -112,3 +112,31 @@ wky://x-callback-url/contractCancel?x-source=otc&data=base64编码后的回调�
 
 ### 5.2 查询 constant 合约方法
 查询合约constant状态和方法，不消耗gas，使用eth_call API方法直接调用。
+
+样例：
+[Example](https://github.com/ethereum/wiki/wiki/JSON-RPC#example-24)
+
+在合约部署成功的情况下，执行以下操作：
+
+ - 未部署合约
+
+[root@t05f058s2 ~]# curl -k -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0x7eff122b94897ea5b0e2a9abf47b86337fafebdc","to":"0xfe2587bdc1781f23d105002c328d3d2ea6cfcbdd","data":"0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"}, "latest"],"id":1}' https://sandbox-walletapi.onethingpcs.com/call
+{"error":{"message":"invalid request","code":-32600},"jsonrpc":"2.0","id":1}
+
+ - 已部署合约
+
+[root@t05f058s2 ~]# curl -k -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0x7eff122b94897ea5b0e2a9abf47b86337fafebdc","to":"0xe0e39a57a044451a00e4c73a2ea6bf83bd229a68","data":"0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"}, "latest"],"id":1}' https://sandbox-walletapi.onethingpcs.com/call
+{"jsonrpc":"2.0","id":1,"result":"0x0000000000000000000000007eff122b94897ea5b0e2a9abf47b86337fafebdc0000000000000000000000000000000000000000000000000000000000000005"}
+
+ - 参数说明
+
+to: 部署合约成功之后，获得的合约地址
+
+data: 计算方法
+
+    abi=[{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"value","type":"uint256"}],"name":"hello","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
+
+    ctx=eth.contract(abi).at('0xc197e61edcbccc4bf7a0f76250ca7246de03e773')
+
+    ctx.hello.getData.call(null, 5, {from:from})
+    "0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"
