@@ -7,6 +7,7 @@
   - [4. 合约地址查询](#4)
   - [5. 查询最近部署的合约地址](#5)
   - [6. 唤起链克口袋协议](#6)
+  - [7. 合约constant方法查询](#7-constant)
 
 baseUrl: https://sandbox-walletapi.onethingpcs.com
 ## 1. 开发者注册
@@ -226,3 +227,61 @@ BODY: JSON
 3. 取消
 
 使用x-cancel的url返回
+
+## 7. 合约constant方法查询
+
+**该方法用来做合约方法查询。**
+该方法是用来执行指定的message call，不会创建交易，因此该方法的调用是试用不会改变区块链状态数据库的，合约中的constant方法应该调用这个rpc方法。
+
+**请求**
+params参数：
+
+| 字段    | 类型  | 约束 |  备注 |
+| ------- | ----- | ---- | ---- |
+| object	|对象	  | 	  | 交易调用对象 |
+| quantity\|tag |	整型或者字符串 |	integer \| "latest" \| "earliest" \| "pending" | 	区块号，"latest"，"earliest" 或 "pending"，详见 [default block parameter](https://github.com/ethereum/wiki/wiki/JSON-RPC#the-default-block-parameter) | 
+
+**object详细**
+1. object - 交易调用对象
+ 
+| 字段 | 类型 | 约束 | 大小 | 备注 |
+| ---- | ----- | ---- | ---- | ---- |
+| from | common.Address | 可选 | 20 bytes	| 交易的发起者 |
+| to	 | common.Address | 必填 | 20 bytes	| 交易指向的地址，比如合约调用方法中就是合约地址 |
+| gas	 | hexutil.Big    | 可选 |          | 执行交易的所需要的gas，eth_call 一般不需要消耗gas，但是这个参数可能在一些执行操作中需要用到 |
+| gasPrice | hexutil.Big | 可选	|         | 每单位的gas所需要的价格  |
+| value |	hexutil.Big | 可选	 |          |	该交易要发送的值 |
+| data	| hexutil.Bytes | 可选 |          | Hash of the method signature and encoded parameters. 详见 [Ethereum Contract ABI](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) |
+ 
+**响应**
+
+| 字段 | 类型 | 约束 | 大小 | 备注 |
+| ---- | ---- | ---- | ---- | ---- |
+| DATA | 交易调用对象 |  |  | 合约执行结果 |
+ 
+样例：
+[Example](https://github.com/ethereum/wiki/wiki/JSON-RPC#example-24)
+在合约部署成功的情况下，执行一下操作：
+
+ - 未部署合约
+
+[root@t05f058s2 ~]# curl -k -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0x7eff122b94897ea5b0e2a9abf47b86337fafebdc","to":"0xfe2587bdc1781f23d105002c328d3d2ea6cfcbdd","data":"0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"}, "latest"],"id":1}' https://sandbox-walletapi.onethingpcs.com/call
+{"error":{"message":"invalid request","code":-32600},"jsonrpc":"2.0","id":1}
+
+ - 已部署合约
+
+[root@t05f058s2 ~]# curl -k -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0x7eff122b94897ea5b0e2a9abf47b86337fafebdc","to":"0xe0e39a57a044451a00e4c73a2ea6bf83bd229a68","data":"0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"}, "latest"],"id":1}' https://sandbox-walletapi.onethingpcs.com/call
+{"jsonrpc":"2.0","id":1,"result":"0x0000000000000000000000007eff122b94897ea5b0e2a9abf47b86337fafebdc0000000000000000000000000000000000000000000000000000000000000005"}
+
+ - 参数说明
+
+to: 部署合约成功之后，获得的合约地址
+
+data: 计算方法
+
+    abi=[{"payable":true,"stateMutability":"payable","type":"fallback"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"value","type":"uint256"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"value","type":"uint256"}],"name":"hello","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
+
+    ctx=eth.contract(abi).at('0xc197e61edcbccc4bf7a0f76250ca7246de03e773')
+
+    ctx.hello.getData.call(null, 5, {from:from})
+    "0xb0f0c96a0000000000000000000000000000000000000000000000000000000000000005"
