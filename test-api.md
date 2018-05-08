@@ -118,7 +118,7 @@ BODY: JSON
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
 |email|string|是|测试使用的email，主要用于接收测试消息|
-|id|string|是|合约部署返回的id|
+|id|int|是|合约部署返回的id|
 |sign|string|是|签名md5(email=xxx&id=xxx&secret=xxx), xxx填写请求的实际值|
 
 **响应**
