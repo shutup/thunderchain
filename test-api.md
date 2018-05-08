@@ -55,7 +55,7 @@ BODY: JSON
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
 |email|string|是|测试使用的email，主要用于接收测试消息|
-|address|string|是|需要充值的账号地址|
+|address|string|是|需要充值的账号地址 0xaaaaaa...|
 |sign|string|是|签名md5(email=xxx&address=xxx&secret=xxx), xxx填写请求的实际值|
 
 **响应**
@@ -83,7 +83,7 @@ BODY: JSON
 |参数名|参数类型|必须|说明|
 |-|-|-|-|
 |email|string|是|测试使用的email，主要用于接收测试消息|
-|bytecode|string|是|编译后的合约字节码，十六进制ABI格式|
+|bytecode|string|是|编译后的合约字节码，十六进制ABI格式 0x123123123.....|
 |params|string|是|构造函数初始化参数，十六进制ABI格式|
 |sign|string|是|签名md5(email=xxx&bytecode=xxx&params=xxx&secret=xxx), xxx填写请求的实际值|
 
