@@ -198,7 +198,6 @@ BODY: JSON
 | callback   | string | 否   | 做url编码，后台回调链接                                                                          |
 | to         | string | 是   | 转出钱包地址                                                                                     |
 | value      | string | 是   | 玩客币数量（单位 wei）                                                                           |
-| order_id   | string | 是   | 服务号（向后台获取）                                                                             |
 | prepay_id  | string | 是   | 预支付订单号                                                                                     |
 | service_id | string | 是   | 业务id，找交易中心申请service_id和签名秘钥（向后台获取） 预留字段（app提交到geth时转化为整形）   |
 | data       | string | 是   | 执行的合约代码，十六进制字符串，以0x开头。包含函数地址和调用参数。只发起转账，这个内容为空。     |
