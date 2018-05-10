@@ -1,11 +1,10 @@
 
 [简体中文](./README.md) | English
 
-# 迅雷链文档
-> 迅雷链（ThunderChain）是网心科技创新打造了具备百万tps高并发、秒级确认能力的高性能区块链，并在此基础上，搭建了迅雷链开放平台，助力开发者快速开发、部署智能合约，企业或个人可以轻松将自己的产品和服务上链，更加便捷地开发区块链应用。
+# ThunderChain docs
 
-本文档针对参与迅雷全球区块链应用大赛的开发者和使用迅雷链的用户。
+This document is aimed at developers who participate in the ThunderChain Applications Global Challenge and users who use ThunderChain.
 
-- [迅雷链测试环境API](./test-api.md)
-- [迅雷链测试环境接入流程](./test-flow.md)
+- [ThunderChain Test Environment APIs](./test-api-EN.md)
+- [ThunderChain Test Access Process](./test-flow-EN.md)
 - [Developer’s Guide to Xunlei Blockchain Applications Global Challenge](./thunderchain-EN.md) 
