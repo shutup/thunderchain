@@ -42,7 +42,7 @@ contract HelloWorld {
 ## 5. 调用合约方法
 
 合约调用指需要改变合约状态的函数调用，执行函数的同时也可以转账到合约账户。用户界面输入用户请求后，触发合约调用。
-![contract_interactive](./images/doc/contract_interactive.png)
+![contract_interactive](./img/contract_interactive.png)
 
 合约调用当前分为两种形式：通过链克口袋App扫描二维码发送合约调用的交易；通过业务方App唤起链克口袋发起合约调用的交易。
 
