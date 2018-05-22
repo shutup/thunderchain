@@ -1,14 +1,5 @@
 # 测试接入流程
 
-- [测试接入流程](#)
-  - [1. 注册开发者账号](#1)
-  - [2. 调用充值接口](#2)
-  - [3. 开发合约应用和上层业务](#3)
-  - [4. 部署合约到迅雷链测试环境](#4)
-  - [5. 调用合约方法](#5)
-    - [5.1 唤起链克口袋](#51)
-    - [5.2 查询 constant 合约方法](#52--constant)
-
 ## 1. 注册开发者账号
 
 1. 开发者根据测试接入API调用 *开发者注册* 接口。
@@ -50,51 +41,15 @@ contract HelloWorld {
 
 ## 5. 调用合约方法
 
+合约调用指需要改变合约状态的函数调用，执行函数的同时也可以转账到合约账户。用户界面输入用户请求后，触发合约调用。
+![contract_interactive](./images/doc/contract_interactive.png)
+
 合约调用当前分为两种形式：通过链克口袋App扫描二维码发送合约调用的交易；通过业务方App唤起链克口袋发起合约调用的交易。
 
 *测试环境链克口袋下载地址 https://www.pgyer.com/ALuZ*
 
-### 5.1 唤起链克口袋
-根据API实现业务APP唤起链克口袋，并传入合约调用的交易。
-**从玩客云调用链克口袋**
+a. 唤起链克口袋
 
-otst://contract/?tx-data=ZGVzYz3nlLXlvbFYWFhYJnRvPTB4MTIzNDU2Nzg5MDEyMzQ1Njc4OTAmdmFsdWU9MTIzLjQwJmdhc2xpbWl0PTUwMDAwJmRhdGE9MHgwMTAyMDMwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEmc2lnbj0wNEI3QTU1QzQ3NDQwRDk4NUE0NDgzNkZENTVFQkVCNw==&resource=d2t5&x-source=wky&x-success=wky://x-callback-url/contractSuccess&x-error=wky://x-callback-url/contractError&x-cancel=wky://x-callback-url/contractCancel&&cb-data=base64编码后的回调透传参数
-
-**具体解析**
-1. 合约执行业务 otst://contract
-1. 源app名字，resource=d2t5, 解码后是wky
-2. 源app回调前缀，x-source=wky
-3. 成功回调 &x-success=wky://x-callback-url/contractSuccess
-4. 失败回调 &x-error=wky://x-callback-url/contractError
-5. 取消回调 &x-cancel=wky://x-callback-url/contractCancel
-6. 回调时，直接回传 &cb-data=abcdefg
-8. 交易信息tx-data=ZGVzYz3nlLXlvbFYWFhYJnRvPTB4MTIzNDU2Nzg5MDEyMzQ1Njc4OTAmdmFsdWU9MTIzLjQwJmdhc2xpbWl0PTUwMDAwJmRhdGE9MHgwMTAyMDMwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEmc2lnbj0wNEI3QTU1QzQ3NDQwRDk4NUE0NDgzNkZENTVFQkVCNw==
-
-**解码后包含如下信息**
-
-1. 支付地址 &to=0x12345678901234567890
-2. 支付玩客币数量 &value=123.4
-3. 最大支付费用 &gaslimit=50000
-4. 调用代码 &data=0x010203040000000000000000000000000000000000000000000000000000000000000001
-5. 用于标题 &desc=电影XXXX
-6. sign交易签名 &sign=04B7A55C47440D985A44836FD55EBEB7
-
-**返回（成功）**
-
-wky://x-callback-url/contractSuccess?cb-data=abcdefg&hash=0x12345678901234567890123456789012&data=base64编码后的回调透传参数
-
-**返回(失败)**
-
-wky://x-callback-url/contractError?x-source=otc&errorCode=1&errorMessage=message&data=base64编码后的回调透传参数
-
-**返回(取消)**
-
-wky://x-callback-url/contractCancel?x-source=otc&data=base64编码后的回调透传参数
-
-**合约调用**
-
-合约调用指需要改变合约状态的函数调用，执行函数的同时也可以转账到合约账户。用户界面输入用户请求后，触发合约调用。
-![contract_interactive](./img/contract_interactive.png)
 **步骤如下：**
 
 1. 第三方应用接受用户输入，启动合约调用流程
@@ -109,6 +64,63 @@ wky://x-callback-url/contractCancel?x-source=otc&data=base64编码后的回调�
 **第三方应用可以同步数据到其后台服务。（第三方功能）**
 
 区块链后台将合约调用请求处理完后，如果用户有填写回调信息，回调中心通知第三方应用后台。第三方应用界面会同第三方应用后台同步信息，展示交易后的结果。
+ 
+**例：从玩客云调用链克口袋**
+
+otst://contract/?tx-data=ZGVzYz3nlLXlvbFYWFhYJnRvPTB4MTIzNDU2Nzg5MDEyMzQ1Njc4OTAmdmFsdWU9MTIzLjQwJmdhc2xpbWl0PTUwMDAwJmRhdGE9MHgwMTAyMDMwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEmc2lnbj0wNEI3QTU1QzQ3NDQwRDk4NUE0NDgzNkZENTVFQkVCNw==&resource=d2t5&x-source=wky&x-success=wky://x-callback-url/contractSuccess&x-error=wky://x-callback-url/contractError&x-cancel=wky://x-callback-url/contractCancel&&cb-data=base64编码后的回调透传参数
+
+**具体解析**
+- 合约执行业务 otst://contract
+- 源app名字，resource=d2t5, 解码后是wky
+- 源app回调前缀，x-source=wky
+- 成功回调 &x-success=wky://x-callback-url/contractSuccess
+- 失败回调 &x-error=wky://x-callback-url/contractError
+- 取消回调 &x-cancel=wky://x-callback-url/contractCancel
+- 回调时，直接回传 &cb-data=abcdefg
+- 交易信息tx-data=ZGVzYz3nlLXlvbFYWFhYJnRvPTB4MTIzNDU2Nzg5MDEyMzQ1Njc4OTAmdmFsdWU9MTIzLjQwJmdhc2xpbWl0PTUwMDAwJmRhdGE9MHgwMTAyMDMwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEmc2lnbj0wNEI3QTU1QzQ3NDQwRDk4NUE0NDgzNkZENTVFQkVCNw==
+
+**解码后包含如下信息**
+
+- 支付地址 &to=0x12345678901234567890
+- 支付玩客币数量 &value=123.4
+- 最大支付费用 &gaslimit=50000
+- 调用代码 &data=0x010203040000000000000000000000000000000000000000000000000000000000000001
+- 用于标题 &desc=电影XXXX
+- sign交易签名 &sign=04B7A55C47440D985A44836FD55EBEB7
+
+**返回（成功）**
+
+wky://x-callback-url/contractSuccess?cb-data=abcdefg&hash=0x12345678901234567890123456789012&data=base64编码后的回调透传参数
+
+**返回(失败)**
+
+wky://x-callback-url/contractError?x-source=otc&errorCode=1&errorMessage=message&data=base64编码后的回调透传参数
+
+**返回(取消)**
+
+wky://x-callback-url/contractCancel?x-source=otc&data=base64编码后的回调透传参数
+
+b. 使用链克口袋扫描二维码调用合约
+
+**步骤如下：**
+
+1. 第三方应用接受用户输入，启动合约调用流程
+2. 用户使用链克区块链分配的service_id，到区块链后台请求，分配一个prepay_id。
+3. 后台收到请求后，产生一个prepay_id给第三方应用。
+4. 第三方应用打包交易，主要包括合约地址、gas_limit、转账金额、执行的函数和参数编码(ABI)、签名等信息。
+5. 第三方通过web服务接受url请求，请求链接返回上述生成的tx-data作为response.body，结构如下*请求url返回的结构*。
+6. 使用链接 http://red.xunlei.com/html/guider.html?action=*url* 生成二维码。
+7. 使用链克口袋扫描二维码。
+
+**请求url返回的结构**
+
+	{
+		"iRet":0,
+		"sMsg": "ok",
+		"data": {
+			"tx_data": ""
+		}
+	}
 
 ### 5.2 查询 constant 合约方法
 查询合约constant状态和方法，不消耗gas，使用eth_call API方法直接调用。
